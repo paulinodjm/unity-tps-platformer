@@ -30,3 +30,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Asset Store
+/UnityProject/Assets/ProCore
+/UnityProject/Assets/ProCore.meta
