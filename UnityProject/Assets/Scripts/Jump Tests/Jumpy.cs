@@ -8,6 +8,9 @@ class Jumpy : MonoBehaviour {
   [Range(0, 1)]
   public float factor;
 
+  public float a = -1;
+  public float c = 0;
+
   /// <summary>
   /// Callback to draw gizmos that are pickable and always drawn.
   /// </summary>
@@ -29,11 +32,11 @@ class Jumpy : MonoBehaviour {
     var x = factor * distance;
     // Find the "y" for the current "x" value.
     // "y" is the vertical offset from the start point
-    var y = -(x * x) + (b * x);
+    var y = FindY(x, b);
 
     // Find the "x" and "y" for the higher point in the character's trajectory
     var middleX = b / 2.0f;
-    var middleY = -(middleX * middleX) + (b * middleX);
+    var middleY = FindY(middleX, b);
     var middleFactor = Mathf.InverseLerp(0, distance, middleX);
     var middlePoint = Vector3.Lerp(start.position, new Vector3(target.position.x, start.position.y, target.position.z), middleFactor);
 
@@ -46,8 +49,12 @@ class Jumpy : MonoBehaviour {
     Gizmos.DrawSphere(currentPoint, 0.15f);
   }
 
-  private float FindB(float x, float y) {
-    return (y + (x * x)) / x;
+  private float FindB(float d, float h) {
+    return (h + a * d * d) / d;
+  }
+
+  private float FindY(float x, float b) {
+    return -(a * x * x) + (b * x) + c;
   }
 
   private float GetTargetDistance() {
