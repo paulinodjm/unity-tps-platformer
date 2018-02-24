@@ -184,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 424425234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.551, y: 3.22, z: 1.69}
+  m_LocalPosition: {x: 0.551, y: 1.39, z: 1.12}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -287,9 +287,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 1400689507}
   target: {fileID: 424425238}
-  factor: 0
-  a: 0.3
-  c: 0
+  factor: 0.365
+  speed: 4
+  gravity: 9.81
+  verticalOffset: 0
 --- !u!23 &890582463
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1400689503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.533, y: 2.84, z: -0.63}
+  m_LocalPosition: {x: 0.533, y: 1.64, z: 0.28}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}

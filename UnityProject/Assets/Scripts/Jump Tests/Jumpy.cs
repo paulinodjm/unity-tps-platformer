@@ -8,8 +8,10 @@ class Jumpy : MonoBehaviour {
   [Range(0, 1)]
   public float factor;
 
-  public float a = -1;
-  public float c = 0;
+  public float speed = 1;
+
+  public float gravity = 9.81f;
+  public float verticalOffset = 0;
 
   /// <summary>
   /// Callback to draw gizmos that are pickable and always drawn.
@@ -26,17 +28,19 @@ class Jumpy : MonoBehaviour {
     var distance = GetTargetDistance();
     var height = GetTargetHeight();
 
+    var a = gravity * FindDuration(distance);
+
     // Find the "b" parameter for the equation reaching the target point
-    var b = FindB(distance, height);
+    var b = FindB(a, distance, height);
     // Find the current "x" value
     var x = factor * distance;
     // Find the "y" for the current "x" value.
     // "y" is the vertical offset from the start point
-    var y = FindY(x, b);
+    var y = FindY(x, a, b);
 
     // Find the "x" and "y" for the higher point in the character's trajectory
-    var middleX = FindMiddleX(b);
-    var middleY = FindY(middleX, b);
+    var middleX = FindMiddleX(a, b);
+    var middleY = FindY(middleX, a, b);
     var middleFactor = Mathf.InverseLerp(0, distance, middleX);
     var middlePoint = Vector3.Lerp(start.position, new Vector3(target.position.x, start.position.y, target.position.z), middleFactor);
 
@@ -50,16 +54,20 @@ class Jumpy : MonoBehaviour {
   }
 
   /// Find the "b" parameter for the jump equation
-  private float FindB(float d, float h) {
+  private float FindB(float a, float d, float h) {
     return (h + a * d * d) / d;
   }
 
-  private float FindMiddleX(float b) {
-    return b / (2 * a);
+  private float FindMiddleX(float a, float b) {
+    return b / (2f * a);
   }
 
-  private float FindY(float x, float b) {
-    return -(a * x * x) + (b * x) + c;
+  private float FindY(float x, float a, float b) {
+    return -(a * x * x) + (b * x) + verticalOffset;
+  }
+
+  private float FindDuration(float distance) {
+    return speed > 0f ? distance / speed : 0f;
   }
 
   private float GetTargetDistance() {
