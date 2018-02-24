@@ -35,7 +35,7 @@ class Jumpy : MonoBehaviour {
     var y = FindY(x, b);
 
     // Find the "x" and "y" for the higher point in the character's trajectory
-    var middleX = b / 2.0f;
+    var middleX = FindMiddleX(b);
     var middleY = FindY(middleX, b);
     var middleFactor = Mathf.InverseLerp(0, distance, middleX);
     var middlePoint = Vector3.Lerp(start.position, new Vector3(target.position.x, start.position.y, target.position.z), middleFactor);
@@ -49,8 +49,13 @@ class Jumpy : MonoBehaviour {
     Gizmos.DrawSphere(currentPoint, 0.15f);
   }
 
+  /// Find the "b" parameter for the jump equation
   private float FindB(float d, float h) {
     return (h + a * d * d) / d;
+  }
+
+  private float FindMiddleX(float b) {
+    return b / (2 * a);
   }
 
   private float FindY(float x, float b) {
