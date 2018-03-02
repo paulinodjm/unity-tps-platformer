@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
 
     var move = TransformMoveDirection(inputMove, forward, right);
     character.PendingMove = move;
+
+    character.ShouldJump = playerInput.ShouldJump;
   }
 
   private void GetGroundedAxis(out Vector3 forward, out Vector3 right) {

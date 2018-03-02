@@ -22,6 +22,9 @@ public class PlayerCharacterInput : MonoBehaviour {
   public string horizontalViewAxis = "Mouse X";
   public string verticalViewAxis = "Mouse Y";
 
+  [Header("Jump")]
+  public string jumpButton = "Jump";
+
   #endregion
 
   /// Returns the input move
@@ -40,6 +43,13 @@ public class PlayerCharacterInput : MonoBehaviour {
       var horizontalMove = Input.GetAxis(horizontalViewAxis);
       var verticalMove = Input.GetAxis(verticalViewAxis);
       return new Vector2(horizontalMove, verticalMove);
+    }
+  }
+
+  /// Tell whether the character should jump or not
+  public bool ShouldJump {
+    get {
+      return Input.GetButtonDown(jumpButton);
     }
   }
 
