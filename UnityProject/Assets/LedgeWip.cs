@@ -22,8 +22,11 @@ public class LedgeWip : MonoBehaviour {
   public Color crossExtendsColor = Color.red;
 
   [Header("Objects")]
-  [Tooltip("The ledge extend")]
-  public Transform extends;
+  [Tooltip("The first ledge handle")]
+  public Transform Ledge0;
+
+  [Tooltip("The second ledge handle")]
+  public Transform Ledge1;
 
   [Tooltip("The object that mimics a player")]
   public Transform needle;
@@ -31,7 +34,7 @@ public class LedgeWip : MonoBehaviour {
   /// Returns the ledge vector
   public Vector3 LedgeVector {
     get {
-      return extends == null ? Vector3.zero : extends.position - transform.position;
+      return Ledge0 == null || Ledge1 == null ? Vector3.zero : Ledge1.position - Ledge0.position;
     }
   }
 
@@ -50,34 +53,34 @@ public class LedgeWip : MonoBehaviour {
   }
 
   private void DrawExtendsGizmos() {
-    if (extends == null) return;
+    if (Ledge0 == null || Ledge1 == null) return;
 
     Gizmos.color = ledgeColor;
 
     // draws the ledge line
-    Gizmos.DrawRay(transform.position, LedgeVector);
+    Gizmos.DrawRay(Ledge0.position, LedgeVector);
 
     // draws rays at ledge_0
-    Gizmos.DrawRay(transform.position, -Vector3.up * ledgeExtendsSize);
-    Gizmos.DrawRay(transform.position, FloorVector * ledgeExtendsSize);
+    Gizmos.DrawRay(Ledge0.position, -Vector3.up * ledgeExtendsSize);
+    Gizmos.DrawRay(Ledge0.position, FloorVector * ledgeExtendsSize);
 
     // draws rays at ledge_1
-    Gizmos.DrawRay(extends.position, -Vector3.up * ledgeExtendsSize);
-    Gizmos.DrawRay(extends.position, FloorVector * ledgeExtendsSize);
+    Gizmos.DrawRay(Ledge1.position, -Vector3.up * ledgeExtendsSize);
+    Gizmos.DrawRay(Ledge1.position, FloorVector * ledgeExtendsSize);
   }
 
   private void DrawNeedleGizmos() {
-    if (needle == null) return;
+    if (needle == null || Ledge0 == null || Ledge1 == null) return;
 
     // find the nearest point on the ledge vector
     var ledgeNormal = LedgeVector.normalized;
-    var needleOnNormalized = needle.position - transform.position;
+    var needleOnNormalized = needle.position - Ledge0.position;
     var projectedNormalized = Vector3.Project(needleOnNormalized, ledgeNormal);
-    var res_nearestLedgePoint = transform.position + projectedNormalized;
+    var res_nearestLedgePoint = Ledge0.position + projectedNormalized;
 
     // find whether the point is really on the ledge or on the extends only
-    var pointFromLedge0 = res_nearestLedgePoint - transform.position;
-    var pointFromLedge1 = res_nearestLedgePoint - extends.position;
+    var pointFromLedge0 = res_nearestLedgePoint - Ledge0.position;
+    var pointFromLedge1 = res_nearestLedgePoint - Ledge1.position;
     var magnitudeFromLedge0 = Vector3.SqrMagnitude(pointFromLedge0);
     var magnitudeFromLedge1 = Vector3.SqrMagnitude(pointFromLedge1);
     var res_isLedge0Extends = magnitudeFromLedge0 > LedgeVector.sqrMagnitude;
