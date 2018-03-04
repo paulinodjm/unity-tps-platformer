@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerCharacter : PlayerCharacterBase {
+public class PlayerCharacterPhys : PlayerCharacterBase {
 
-  public NavMeshAgent navMeshAgent;
+  public CharacterController characterController;
 
   [Header("Displacements")]
   public float runSpeed = 7f;
@@ -21,14 +21,14 @@ public class PlayerCharacter : PlayerCharacterBase {
   }
 
   void OnValidate() {
-    if (navMeshAgent == null) {
-      navMeshAgent = GetComponent<NavMeshAgent>();
+    if (characterController == null) {
+      characterController = GetComponent<CharacterController>();
     }
   }
 
   /// Applies the pending movement for the current frame
   public override void ApplyMovement() {
-    navMeshAgent.velocity = _pendingMove * runSpeed;
+    characterController.Move(_pendingMove);
 
     if (_aimTarget.HasValue) {
       // TODO aim logic

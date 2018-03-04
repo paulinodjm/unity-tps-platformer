@@ -5,7 +5,7 @@ using UnityEngine;
 [AddComponentMenu("Scripts/Player Control/Player Controller")]
 public class PlayerController : MonoBehaviour {
   public PlayerCharacterInput playerInput;
-  public PlayerCharacter character;
+  public PlayerCharacterBase character;
   public CameraController playerCamera;
 
   void OnValidate() {
