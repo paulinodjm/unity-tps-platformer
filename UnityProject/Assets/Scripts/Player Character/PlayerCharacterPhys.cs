@@ -10,6 +10,7 @@ public class PlayerCharacterPhys : PlayerCharacterBase {
   [Header("Displacements")]
   public float runSpeed = 7f;
   public float rotationSpeed = 360f;
+  public float gravity = 40f;
 
   private Vector3 _pendingMove;
   private Vector3? _aimTarget;
@@ -28,7 +29,8 @@ public class PlayerCharacterPhys : PlayerCharacterBase {
 
   /// Applies the pending movement for the current frame
   public override void ApplyMovement() {
-    characterController.Move(_pendingMove);
+    var move = _pendingMove + new Vector3(0, -gravity * Time.deltaTime, 0);
+    characterController.Move(move * runSpeed * Time.deltaTime);
 
     if (_aimTarget.HasValue) {
       // TODO aim logic
